@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>个人资料</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    {{include file='public/header'}}
+
+</head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+
+    {{include file='public/menu'}}
+    <div id="page-wrapper" class="gray-bg" style="min-height: 551px;">
+        {{include file='public/headerInfo'}}
+        {{include file='public/pageHeader'}}
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel">
+                        <div class="panel-body">
+
+                            <a href="javascript:;" onclick="resetPassword({{$userInfo->id}})" class="btn  btn-primary">重置密码</a>
+                            <a href="{{:url('member/userinfoedit',['id'=>$userInfo->id])}}" class="btn  btn-info">修改资料</a>
+                            <a href="{{:url('level/memberleveledit',['id'=>$userInfo->id])}}" class="btn  btn-warning">修改会员职务</a>
+                        </div>
+                    </div>
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>基本信息</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+
+                                    <table class="table  table-bordered table-hover dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" >
+
+                                        <tbody class="ziliao">
+                                        <tr >
+                                            <td>会员编号</td>
+                                            <td>{{$userInfo->number}}	</td>
+                                            <td >会员姓名</td>
+                                            <td >{{$bankInfo->name}}</td>
+                                            <td >会员职务</td>
+                                            <td>{{$userInfo->level}}</td>
+                                            <td>手机号</td>
+                                            <td>{{$userInfo->mobile}}</td>
+
+                                        </tr>
+                                        <tr class="">
+                                            <td>支付宝</td>
+                                            <td>{{$bankInfo->ali}}</td>
+                                            {{if condition='$bankInfo'}}
+                                            <td>银行卡</td>
+                                            <td>{{$bankInfo->bank_number}}</td>
+                                            <td>开户人</td>
+                                            <td>{{$bankInfo->name}}</td>
+                                            <td>开户行</td>
+                                            <td>{{$bankInfo->bank_name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>开户行地址</td>
+                                            <td colspan="3">{{$bankInfo->bank_addr}}</td>
+                                        </tr>
+                                        {{else/}}
+                                        <td>银行卡</td>
+                                        <td>暂无信息</td>
+                                        <td>开户人</td>
+                                        <td>暂无信息</td>
+                                        <td>开户行</td>
+                                        <td>暂无信息</td>
+                                        </tr>
+                                        <tr>
+                                            <td>开户行地址</td>
+                                            <td colspan="3">暂无信息</td>
+                                        </tr>
+                                        {{/if}}
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="ibox-title">
+                            <h5>关系信息</h5>
+
+                        </div>
+                        <div class="ibox-title">
+                            <div class="form-horizontal">
+
+                                <div class="form-group"><label class="col-lg-1 col-sm-3 col-xs-6 control-label">推荐人</label>
+
+                                    <div class="col-lg-11  col-sm-3 col-xs-6"> <span class="help-block text-danger">
+                                        {{if condition='$parentInfo'}}
+                                        {{$parentInfo->number}}({{$parentInfo->username}})
+                                        {{else/}}
+                                        最上级用户无推荐人
+                                        {{/if}}
+                                    </span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox-title"><a href="javascript:;" onclick="history.back(-1)" class="btn btn-primary">返回</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+
+            <div>
+                <strong>Copyright</strong>
+            </div>
+        </div>
+    </div>
+    {{include file='public/dropDown'}}
+</div>
+
+{{include file='public/footer'}}
+<script type="text/javascript">
+    $('.count').countUp();
+
+    function resetPassword(key = 0) {
+        ajax_Submit("{{:url('member/resetPassword')}}",'id='+key,'get')
+        //modifyByKeys("{{:url('member/resetPassword')}}",key)
+    }
+
+    function setAngle(key =0) {
+        ajax_Submit("{{:url('member/setangle')}}",'id='+key,'get')
+    }
+</script>
+
+</body>
+
+</html>

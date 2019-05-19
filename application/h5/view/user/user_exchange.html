@@ -1,0 +1,93 @@
+{{include file="public/header" /}}
+	<title>积分兑换</title>
+	<body>
+		<header class="mui-bar mui-bar-nav  index-headers">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='javascript:;' ></a>
+			<h1 class="mui-title color">积分兑换</h1>
+			
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh" style="background: #fff;">
+			<div class="mui-scroll">
+				
+				<div class="mui-table-view mui-table-view-chevron   jf_duihuan " >
+					<div class="team_header">
+						<div class="flex">
+							
+							<div class="flex-item mui-text-left">
+								<p class="mui-bai">我的积分</p>
+								<p class="mui-bai font15" style="font-size: 24px;">15313</p>
+							</div>
+						</div>
+					</div>
+					<div class="duihuan_main">
+						<form class="mui-input-group">
+							<div class="mui-input-row">
+								<label class="blue">提现方式</label>
+							</div>
+							<div class="mui-input-row flex" style="padding-left: 13px;">
+								<div class=" mui-radio mui-left flex-item">
+									<label>银行卡</label>
+									<input name="radio1" type="radio" value="0" checked >
+								</div> 
+								<div class=" mui-radio mui-left flex-item">
+									<label>微信</label>
+									<input name="radio1" type="radio" value="1">
+								</div> 
+								<div class=" mui-radio mui-left flex-item">
+									<label>支付宝</label>
+									<input name="radio1" type="radio" value="1">
+								</div> 
+							</div>	
+							<div class="mui-input-row">
+								<label class="blue">提现积分</label>
+							</div>
+							<div class="mui-input-row">
+								
+								<input type="text" class="mui-input-clear" name="num" placeholder="请输入提现数量">
+							</div>
+							<div class="mui-input-row">
+								<label class="blue">银行卡</label>
+							</div>
+							<div class="mui-input-row">
+							
+								<input type="text" class="mui-input-clear" name="bank" placeholder="请输入银行卡号">
+							</div>
+
+							<button type="button" id="submite" class="mui-btns" >确定</button>
+							<a href="{{:url('/user_exchange_record')}}" class="mui-pull-right blue" style="margin-top: -10px;">提现记录</a>
+						</form>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		{{include file="public/footer" /}}
+		<script type="text/javascript" charset="utf-8">
+		mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style:'circle',
+						callback: pulldownRefresh
+					}
+				}
+		});
+		function pulldownRefresh() {
+			setTimeout(function() {
+				window.location.reload()
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+		$('#submite')[0].addEventListener('tap',function(){
+			var data=$('form').serializeArray()
+			console.log(data)
+			if(data[1].value==''||data[1].value==null){mui.toast('提现数量不能为空'); return false}
+			if(data[2].value==''||data[3].value==null){mui.toast('银行卡号不能为空'); return false}
+			
+		})
+			
+		</script>
+		
+	</body>
+</html>

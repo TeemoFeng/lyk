@@ -1,0 +1,106 @@
+{{include file="public/header" /}}
+	<title>我的团队</title>
+		<style type="text/css">
+			.mui-content{background: #fff;}
+		</style>
+	<body>
+		<header class="mui-bar mui-bar-nav  index-headers">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='javascript:;' ></a>
+			<h1 class="mui-title color">我的团队</h1>
+			
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div class="mui-scroll">
+				
+				<div class="mui-table-view mui-table-view-chevron    " >
+					<div class="team_header">
+						<div class="flex">
+							<div class="flex-item mui-text-center">
+								<p class="font15">直推人数</p>
+								<p class="mui-bai font15">{{$userInfo->zt_count}}人</p>
+							</div>
+							<div class="flex-item mui-text-center">
+								<p class="font15">团队总人数</p>
+								<p class="mui-bai font15">{{$userInfo->team_count}}人</p>
+							</div>
+						</div>
+					</div>
+					<div class="mui-table">
+						<table border="" >
+							<tr>
+								<th>手机号</th>
+								<th>姓名</th>
+								<th>注册时间</th>
+							</tr>
+							
+						</table>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		{{include file="public/footer" /}}
+		<script type="text/javascript" charset="utf-8">
+		mui.init({
+			pullRefresh: {
+				container: '#pullrefresh',
+				down: {
+					style:'circle',
+					callback: pulldownRefresh
+				},
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}
+			}
+		});
+		function pullupRefresh() {	
+				setTimeout(function() {	
+					a()	
+				}, 1500);
+			}
+		function pulldownRefresh() {
+			setTimeout(function() {
+				window.location.reload()
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+		var page=1;
+		a()
+		function a() {
+			$.ajax({
+				url:'',
+				type:'get',
+				dataType:'json',
+				data:{page:page},
+				success:function (res) {
+					console.log(res)
+					
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(res.data.data.length==0);
+					if(page==1&&res.data.data.length==0){
+						$('.mui-table table').append('<tr>'+
+							'<td class="mui-ellipsis" colspan="3">暂无更所数据</td>'+
+							
+						'</tr>')
+					}
+					if(res.data.data.length!==0){
+						page = parseInt(page)+1
+						$.each(res.data.data, function (index, value) {
+						 	$('.mui-table table').append('<tr>'+
+								'<td class="mui-ellipsis">'+value.mobile+'</td>'+
+								'<td class="mui-ellipsis">'+value.username+'</td>'+
+								'<td class="mui-ellipsis">'+value.create_time+'</td>'+
+							'</tr>')
+						 	
+						 })		
+					}
+					
+                }
+			})
+        }
+		
+			
+		</script>
+		
+	</body>
+</html>

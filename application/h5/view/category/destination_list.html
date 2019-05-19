@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{{include file='public/header'}}
+<body>
+<header class="mui-bar mui-bar-nav  index-headers">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='{{:url('index/index')}}' ></a>
+    <h1 class="mui-title color">目的地</h1>
+
+</header>
+<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+    <div class="mui-scroll">
+
+        <div id="segmentedControl" class="mui-segmented-control ">
+            {{foreach name="categorys" item="co" key="k" }}
+            	<a class="mui-control-item {{if condition='$cid == $k'}} mui-active {{/if}}" href="{{:url('category/categoryTypeController',['cid'=>$k,'displayType'=>2])}}">
+                  {{$co}}
+          	    </a>
+            {{/foreach}}
+        </div>
+        <div class="re_list">
+            <ul class="mui-list-unstyled mui-clearfix">
+                {{volist name='$journeys' id='jo'}}
+                <li>
+                    <a href="{{:url('trip/detail',['jid'=>$jo->id])}}">
+                        <img src="{{$jo->csInfo->w_image_path}}" alt="">
+                        <p class="font15  mui-ellipsis">{{$jo->csInfo->title}}</p>
+                        <p class="mui-ellipsis">{{$jo->csInfo->intro}}</p>
+                    </a>
+                </li>
+                {{/volist}}
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+{{include file='public/footer'}}
+<script type="text/javascript" charset="utf-8">
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            down: {
+                style:'circle',
+                callback: pulldownRefresh
+            }
+        }
+    });
+    function pulldownRefresh() {
+        setTimeout(function() {
+            window.location.reload()
+            mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+        }, 1500);
+    }
+
+
+</script>
+<script>
+
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        autoplay:5000,
+        paginationClickable: true,
+
+    });
+
+</script>
+</body>
+</html>

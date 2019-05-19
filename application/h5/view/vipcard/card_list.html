@@ -1,0 +1,79 @@
+{{include file='public/header'}}
+<body>
+<header class="mui-bar mui-bar-nav  index-headers">
+
+    <h1 class="mui-title color">会员</h1>
+
+</header>
+<div class="mui-content mui-scroll-wrapper mui-bottom" id="pullrefresh">
+    <div class="mui-scroll">
+
+        <div class="swiper-container gallery-top">
+            <div class="swiper-wrapper">
+                {{volist name='cards' id='co'}}
+                <div class="swiper-slide"><img src="{{$co->w_image_path}}" alt=""></div>
+                {{/volist}}
+            </div>
+        </div>
+        <div class="swiper-container gallery-thumbs swiper-no-swiping">
+            <div class="swiper-wrapper">
+                {{volist name='cards' id='co'}}
+                <div class="swiper-slide">
+                    <div class="flex">
+                        <img src="__STATIC__/h5/images/huiyuan/huangguan.png" alt="" style='width:30px'>
+                        <div class="card_jieshao">
+                            <h5>卡种介绍</h5>
+                            <div style='color:#f29b76'>{{$co->introduce}}</div>
+                        </div>
+                    </div>
+                    <div class="flex">
+                        <img src="__STATIC__/h5/images/huiyuan/xunzhang.png" alt="" style='width:30px'>
+                        <div class="card_jieshao">
+                            <h5>卡种攻略</h5>
+                            <div style='color:#f29b76'>{{$co->introduce}}</div>
+                        </div>
+                    </div>
+                    <a href="{{:url('vipcard/cardbuy',['id'=>$co->card_id])}}" class="mui-btns">点击进入</a>
+                </div>
+                {{/volist}}
+            </div>
+        </div>
+    </div>
+</div>
+{{include file='public/nav'}}
+{{include file='public/footer'}}
+<script type="text/javascript" charset="utf-8">
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            down: {
+                style: 'circle',
+                callback: pulldownRefresh
+            }
+        }
+    });
+
+    function pulldownRefresh() {
+        setTimeout(function() {
+            window.location.reload()
+            mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+        }, 1500);
+    }
+
+    var galleryThumbs = new Swiper('.gallery-thumbs', {
+        spaceBetween: 10,
+        slidesPerView: 1,
+        freeMode: true,
+        watchSlidesVisibility: true,
+        watchSlidesProgress: true,
+    });
+    var galleryTop = new Swiper('.gallery-top', {
+		
+
+    });
+    galleryTop.params.control = galleryThumbs;
+ galleryThumbs.params.control = galleryTop;
+</script>
+
+</body>
+</html>

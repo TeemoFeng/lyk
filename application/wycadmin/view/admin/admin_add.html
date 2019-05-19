@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{$title}}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    {{include file='public/header'}}
+
+</head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper" >
+    {{include file='public/menu'}}
+
+    <div id="page-wrapper" class="gray-bg" style="min-height: 551px;">
+        {{include file='public/headerInfo'}}
+        {{include file='public/pageHeader'}}
+        <div class="wrapper wrapper-content animated fadeInDown">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>{{$title}}</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content clearfix">
+                            <form method="post" id="admininfo" class="form-horizontal col-lg-6">
+                                <div class="form-group"><label class="col-sm-2 control-label">*管理员名</label>
+
+                                    <div class="col-sm-10"><input type="text" class="form-control" name="username"><span class="help-block m-b-none text-danger">(管理员名最短6位,最长20位)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">权限</label>
+
+                                    <div class="col-sm-10"><select name="power" class="form-control">
+                                        <option value="0">最高权限</option>
+                                        {{volist name='powerList' id='po'}}
+                                        <option value="{{$po->id}}">{{$po->title}}</option>
+                                        {{/volist}}
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">密码</label>
+                                    <div class="col-sm-10"><input type="password" class="form-control" name="password"> <span class="help-block m-b-none text-danger">(密码最短6位,最长20位)</span>
+                                    </div>
+
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">确认密码</label>
+
+                                    <div class="col-sm-10"><input type="password" class="form-control" name="password_confirm"></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-white" type="button" >取消</button>
+                                        <button class="btn btn-primary" type="button" onclick="infoSubmit()">保存更改</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+
+            <div>
+                <strong>Copyright</strong>
+            </div>
+        </div>
+    </div>
+    {{include file='public/dropDown'}}
+</div>
+
+{{include file='public/footer'}}
+
+<script type="text/javascript">
+    $('.count').countUp();
+
+    function infoSubmit() {
+        ajax_Submit("",$('#admininfo').serialize(),"post");
+    }
+   highlight_subnav();
+    function highlight_subnav() {
+		
+        $($('.metismenu li ').find('a[href="/wycadmin/Admin/adminAdd"]')).parent().addClass('active');
+      
+       $($('.metismenu li ').find('a[href="/wycadmin/Admin/adminAdd"]')).parent().parent().parent().addClass('active');
+    }
+</script>
+
+
+</body>
+
+</html>

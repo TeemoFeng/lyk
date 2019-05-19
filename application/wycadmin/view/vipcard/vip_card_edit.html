@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{$title}}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    {{include file='public/header'}}
+</head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper" >
+    {{include file='public/menu'}}
+
+    <div id="page-wrapper" class="gray-bg" style="min-height: 551px;">
+        {{include file='public/headerInfo'}}
+        {{include file='public/pageHeader'}}
+        <div class="wrapper wrapper-content animated fadeInDown">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>{{$title}}</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content clearfix">
+                            <form method="post" id="itcinfo" class="form-horizontal col-lg-6" enctype="multipart/form-data">
+                                <div class="form-group"><label class="col-sm-2 control-label">*卡片名称</label>
+                                    <div class="col-sm-10"><input type="title" value="{{$info->title}}" class="form-control"  name="title"><span class="help-block m-b-none text-danger">(名称最长32位)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*卡片id</label>
+                                    <div class="col-sm-10"><input type="number" value="{{$info->card_id}}" class="form-control" name="card_id"><span class="help-block m-b-none text-danger">(id填写0-127)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*卡片图片</label>
+                                    <div class="col-sm-10"><input type="file" class="form-control" name="image"><span class="help-block m-b-none text-danger">(卡片图片 尺寸319*138)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*价格</label>
+                                    <div class="col-sm-10"><input type="number" value="{{$info->price}}" class="form-control" name="price"><span class="help-block m-b-none text-danger">(价格填写0-99999999)</span></div>
+                                </div>
+                                <input type="hidden" name="image_path" value="{{$info->image_path}}">
+                                <input type="hidden" name="id" value="{{$info->id}}">
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*卡片类型</label>
+                                    <div class="col-sm-10">
+                                        <label for="card_type1" style="display: inline-block;margin-top:7px;margin-right: 10px">
+                                            <input id="card_type1" type="radio" {{if condition="$info->card_type == 1"}} checked="checked" {{/if}}  value="1" class="" name="card_type"> 按天数
+                                        </label>
+                                        <label for="card_typ2" style="display: inline-block;margin-top:7px">
+                                            <input id="card_typ2" type="radio" {{if condition="$info->card_type == 2"}} checked="checked" {{/if}} value="2" class="" name="card_type"> 按使用次数
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*使用次数或到期天数</label>
+                                    <div class="col-sm-10"><input type="number" value="{{$info->card_type_number}}" class="form-control" name="card_type_number"><span class="help-block m-b-none text-danger">(按卡片类型区分到期条件 只能填写1-99999)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*直推奖励方案</label>
+                                    <div class="col-sm-10">
+                                        <label for="recommend_award_type1" style="display: inline-block;margin-top:7px;margin-right: 10px">
+                                            <input id="recommend_award_type1" type="radio" {{if condition="$info->recommend_award_type == 1"}} checked="checked" {{/if}} value="1" class="" name="recommend_award_type"> 线上购买激活后奖励
+                                        </label>
+                                        <label for="recommend_award_type2" style="display: inline-block;margin-top:7px">
+                                            <input id="recommend_award_type2" type="radio" {{if condition="$info->recommend_award_type == 2"}} checked="checked" {{/if}} value="2" class="" name="recommend_award_type"> 线下购买激活后奖励
+                                        </label>
+                                        <label for="recommend_award_type3" style="display: inline-block;margin-top:7px">
+                                            <input id="recommend_award_type3" type="radio" {{if condition="$info->recommend_award_type == 3"}} checked="checked" {{/if}} value="3" class=""  name="recommend_award_type"> 都不奖励
+                                        </label>
+                                        <label for="recommend_award_type4" style="display: inline-block;margin-top:7px">
+                                            <input id="recommend_award_type4" type="radio" {{if condition="$info->recommend_award_type == 4"}} checked="checked" {{/if}} value="4" class="" name="recommend_award_type"> 都奖励
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*线上购买激活奖金</label>
+                                    <div class="col-sm-10"><input type="number" value="{{$info->recommend_award_price_up}}" class="form-control" name="recommend_award_price_up"><span class="help-block m-b-none text-danger">(奖金填写0-99999999)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*线下购买激活奖金</label>
+                                    <div class="col-sm-10"><input type="number" value="{{$info->recommend_award_price_down}}" class="form-control" name="recommend_award_price_down"><span class="help-block m-b-none text-danger">(奖金填写0-99999999)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*是否开启分销</label>
+                                    <div class="col-sm-10">
+                                        <label for="open0" style="display: inline-block;margin-top:7px;margin-right: 10px">
+                                            <input id="open0" type="radio"  {{if condition="$info->open == 0"}} checked="checked" {{/if}} value="0" class="" name="open"> 否
+                                        </label>
+                                        <label for="open1" style="display: inline-block;margin-top:7px">
+                                            <input id="open1" type="radio" {{if condition="$info->open == 1"}} checked="checked" {{/if}} value="1" class="" name="open"> 是
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*卡片介绍</label>
+                                    <div class="col-sm-10"><textarea name="introduce" id="" cols="85" rows="10">{{$info->introduce}}</textarea><span class="help-block m-b-none text-danger">(最长255字)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*卡片攻略</label>
+                                    <div class="col-sm-10"><textarea name="strategy"  cols="85" rows="10">{{$info->strategy}}</textarea><span class="help-block m-b-none text-danger">(最长255字)</span></div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-white" type="button" onclick="history.back(-1)">取消</button>
+                                        <button class="btn btn-primary" type="button" onclick="infoSubmit()">保存更改</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+
+            <div>
+                <strong>Copyright</strong>
+            </div>
+        </div>
+    </div>
+    {{include file='public/dropDown'}}
+</div>
+
+{{include file='public/footer'}}
+
+<script type="text/javascript">
+    $('.count').countUp();
+  highlight_subnav();
+    function highlight_subnav() {
+		
+        $($('.metismenu li ').find('a[href="/wycadmin/vipcard/vipcardlist"]')).parent().addClass('active');
+      
+       $($('.metismenu li ').find('a[href="/wycadmin/vipcard/vipcardlist"]')).parent().parent().parent().addClass('active');
+    }
+    function infoSubmit() {
+        var data = new FormData(document.getElementById('itcinfo'))
+        ajax_Submit("",data,"post",1);
+    }
+</script>
+
+
+</body>
+
+</html>

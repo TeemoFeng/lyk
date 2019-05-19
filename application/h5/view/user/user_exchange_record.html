@@ -1,0 +1,73 @@
+{{include file="public/header" /}}
+	<title>积分记录</title>
+	<body>
+		<header class="mui-bar mui-bar-nav  index-headers">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='javascript:;' ></a>
+			<h1 class="mui-title color">积分记录</h1>
+			
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div class="mui-scroll">
+				
+				<div class="mui-table-view mui-table-view-chevron    " >
+					<div class="team_header">
+						<div class="flex">
+							
+							<div class="flex-item mui-text-center">
+								<p class="mui-bai">总提现积分</p>
+								<p class="mui-bai font15" style="font-size: 20px;">15313</p>
+							</div>
+						</div>
+					</div>
+					<div class="mui-table" style="padding: 0 ;">
+						<table border="" >
+							<tr>
+								<th>提现日期</th>
+								<th>提现积分</th>
+								<th>状态</th>
+							</tr>
+							<tr>
+								<td class="mui-ellipsis">2019-10-05 20:05:02</td>
+								<td class="mui-ellipsis">654646</td>
+								<td class="mui-ellipsis">提现成功</td>
+							</tr>
+							<tr>
+								<td class="mui-ellipsis">2019-10-05 20:05:02</td>
+								<td class="mui-ellipsis">35</td>
+								<td class="mui-ellipsis">提现成功</td>
+							</tr>
+							<tr>
+								<td class="mui-ellipsis">2019-10-05 20:05:02</td>
+								<td class="mui-ellipsis">6654</td>
+								<td class="mui-ellipsis">提现成功</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+
+		{{include file="public/footer" /}}
+		<script type="text/javascript" charset="utf-8">
+		mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style:'circle',
+						callback: pulldownRefresh
+					}
+				}
+		});
+		function pulldownRefresh() {
+			setTimeout(function() {
+				window.location.reload()
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+		
+			
+		</script>
+		
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+{{include file='public/header'}}
+<body>
+<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+	<div class="mui-scroll">
+		<header class="mui-bar  index-header" style="padding: 0 30px;">
+			<div class="mui-input-row mui-search" id="searchForm">
+				<input type="search" id="searchInput" onkeyup="enterSearch(event)" class="mui-input-clear" placeholder="搜你想要的东西">
+			</div>
+
+		</header>
+		<div class="mui-table-view mui-table-view-chevron mui-index  mui-top mui-bottom" >
+			<div class="bg"></div>
+			<div class="swiper-container mui-index-swiper">
+				<div class="swiper-wrapper">
+					{{volist name='banner' id='bo'}}
+						<div class="swiper-slide"><a href="javascript:;"><img src="{{$bo->w_image_path}}" ></a></div>
+					{{/volist}}
+				</div>
+			</div>
+			<div class="index-gonggao">
+				<i class="fa fa-volume-up"></i><span>客服热线:400-005-5212(08:00-18:00)</span>
+			</div>
+			<div class="bg1"></div>
+			<div class="mui-zhuda-title bg-fff mui-text-center">
+				<span class="xian"></span>
+				<div class="main">
+					<i class="i1"></i><i class="i2"></i><p>核心功能</p><i class="i2"></i><i class="i1"></i>
+				</div>
+			</div>
+			<div class="index-main">
+				<ul class="flex mui-list-unstyled">
+					<li class="flex-item"><a href="{{:url('category/categoryTypeController',['cid'=>2,'displayType'=>1])}}"><img src="__STATIC__/h5/images/huodongjingqu.png" alt=""></a></li>
+					<li class="flex-item"><a href="{{:url('category/categoryTypeController',['cid'=>0,'displayType'=>2])}}"><img src="__STATIC__/h5/images/remenluxian.png" alt=""></a></li>
+					<li class="flex-item"><a href="{{:url('index/indexJihuo')}}"><img src="__STATIC__/h5/images/kapianjihuo.png" alt=""></a></li>
+				</ul>
+			</div>
+			<div class="bg1"></div>
+			<div class="mui-zhuda-title bg-fff mui-text-center">
+				<span class="xian"></span>
+				<div class="main">
+					<i class="i1"></i><i class="i2"></i><p>每周特价推荐</p><i class="i2"></i><i class="i1"></i>
+				</div>
+			</div>
+			<div class="index-jq">
+				{{volist name='SpecialList' id='vo'}}
+				<div class="index-jq-list">
+					<a href="{{:url('trip/tjdetail',['sid'=>$vo->id])}}" class="flex">
+						<img src="{{$vo->img}}" alt="">
+						<div>
+							<h5>{{$vo->title}}</h5>
+							<p  class="mui-ellipsis">时间:{{$vo->s_time}}</p>
+							<p  class="mui-ellipsis">热度:
+								{{for start="0" end="$vo->heat" }}
+								<i class=" fa fa-heart"></i>
+
+								{{/for}}
+							</p>
+						</div>
+					</a>
+				</div>
+				{{/volist}}
+			</div>
+		</div>
+
+	</div>
+</div>
+{{include file='public/nav'}}
+{{include file='public/footer'}}
+<script type="text/javascript" charset="utf-8">
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            down: {
+                style:'circle',
+                callback: pulldownRefresh
+            }
+        }
+    });
+    function pulldownRefresh() {
+        setTimeout(function() {
+            window.location.reload()
+            mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+        }, 1500);
+    }
+    function enterSearch(event){
+        if(event.keyCode == 13) {//用户点击回车的事件号为13
+            var keyword = document.getElementById('searchInput').value;
+            alert(keyword);
+        }
+    }
+
+</script>
+<script>
+
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        autoplay:5000,
+        paginationClickable: true,
+
+    });
+
+
+</script>
+</body>
+</html>

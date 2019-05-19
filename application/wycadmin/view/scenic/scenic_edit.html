@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{$title}}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    {{include file='public/header'}}
+    <style type="text/css">
+        .mui-sc-pz {
+            width: 100px;
+            height: 100px;
+        }
+
+        #pingzheng {
+            position: absolute;
+            z-index: -100;
+        }
+
+        #pingzheng1 {
+            position: absolute;
+            z-index: -100;
+        }
+
+        #input_file {
+            position: absolute;
+            top: 1px;
+            left: 15px;
+            opacity: 0;
+        }
+
+        #input_file1 {
+            position: absolute;
+            top: 1px;
+            left: 15px;
+            opacity: 0;
+        }
+
+        .add {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #009688;
+            text-align: center;
+            line-height: 18px;
+            color: #fff !important;
+            padding: 0 !important;
+            margin-top: 8px;
+            position: absolute;
+            right: 0;
+        }
+
+        .adddiv div {
+            margin-top: 5px
+        }
+
+        .del {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background: #009688;
+            text-align: center;
+            line-height: 18px;
+            color: #fff !important;
+            padding: 0 !important;
+        }
+    </style>
+</head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99"
+         style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {{include file='public/menu'}}
+
+    <div id="page-wrapper" class="gray-bg" style="min-height: 551px;">
+        {{include file='public/headerInfo'}}
+        {{include file='public/pageHeader'}}
+        <div class="wrapper wrapper-content animated fadeInDown">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>{{$title}}</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content clearfix">
+                            <form method="post" id="newsinfo" class="form-horizontal col-lg-6"
+                                  enctype="multipart/form-data">
+                                <div class="form-group"><label class="col-sm-2 control-label">*景点类型</label>
+                                    <div class="col-sm-10"><select name="category_id" class="form-control">
+                                        <option value="0">请选择地区</option>
+                                        {{volist name='category_list' id='reg'}}
+                                        <option value="{{$reg.id}}" {{if $reg.id eq $info->category_id}}selected {{/if}} >{{:str_repeat('&nbsp;&nbsp;',$reg.level)}}└{{$reg.title}}</option>
+                                        {{/volist}}
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*景区标题</label>
+
+                                    <div class="col-sm-10"><input type="text" class="form-control" value="{{$info->title}}" name="title"><span
+                                            class="help-block m-b-none text-danger">(标题64个字符)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*简介</label>
+
+                                    <div class="col-sm-10"><input type="text" class="form-control" value="{{$info->intro}}" name="intro"><span
+                                            class="help-block m-b-none text-danger">(简介最长64个字符)</span></div>
+                                </div>
+                               
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*景区所在地</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" name="addr" value="{{$info->addr}}"><span
+                                            class="help-block m-b-none text-danger">(最长64字)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*星级</label>
+                                    <div class="col-sm-10"><input type="text" class="form-control" name="star" value="{{$info->star}}"><span
+                                            class="help-block m-b-none text-danger">(数字1-5)</span></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">*列表图</label>
+                                    <div class="col-sm-10">
+                                        <img id="preview" src="__STATIC__/index/images/tu43.png" class="mui-sc-pz">
+                                        <input type="file" class="mui-sc-pz" name="image" id="input_file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" onchange="imgPreview(this)">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="id" value="{{$info->id}}">
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">*景区详情轮播图</label>
+                                    <div class="col-sm-10"><input type="file" class="form-control" name="images[]"
+                                                                  multiple="multiple"><span
+                                            class="help-block m-b-none text-danger">(ctrl+左键可以选中多张)</span>
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group"><label class="col-sm-2 control-label">景区介绍</label>
+                                    <div class="col-sm-10"><textarea name="introduce"  id="introduce" style="width:100%;height:400px;">{{$info->introduce}}</textarea></div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                              
+
+                                <div class="form-group">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <button class="btn btn-white" type="button">取消</button>
+                                        <button class="btn btn-primary" type="button" onclick="infoSubmit()">保存更改
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+
+            <div>
+                <strong>Copyright</strong>
+            </div>
+        </div>
+    </div>
+    {{include file='public/dropDown'}}
+</div>
+
+{{include file='public/footer'}}
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="__STATIC__/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    $('.count').countUp();
+    window.UEDITOR_HOME_URL = "__STATIC__/ueditor/";//配置路径设定为UEditor所放的位置  
+    window.onload = function () {
+        //window.UEDITOR_CONFIG.initialFrameHeight=600;//编辑器的高度  
+        //window.UEDITOR_CONFIG.initialFrameWidth=1200;//编辑器的宽度  
+        var editor = new UE.ui.Editor({
+            imageUrl: '',
+            fileUrl: '',
+            imagePath: '',
+            filePath: '',
+            imageManagerUrl: '', //图片在线管理的处理地址  
+            imageManagerPath: '__ROOT__/'
+        });
+        editor.render("introduce");//此处的EditorId与<textarea name="content" id="EditorId">的id值对应 </textarea>  
+    }
+
+
+    function getRegion(tt) {
+        console.log(1)
+    }
+
+
+    function infoSubmit() {
+        var data = new FormData(document.getElementById('newsinfo'))
+        ajax_Submit("", data, "post", 1);
+    }
+
+    function imgPreview(fileDom) {
+        //判断是否支持FileReader
+        if (window.FileReader) {
+            var reader = new FileReader();
+        } else {
+            alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+        }
+        //获取文件
+        var file = fileDom.files[0];
+        var imageType = /^image\//;
+        //是否是图片
+        if (!imageType.test(file.type)) {
+            alert("请选择图片！");
+            return;
+        }
+        //读取完成
+        reader.onload = function (e) {
+            //获取图片dom
+            var img = document.getElementById("preview");
+            var pingzheng = document.getElementById("pingzheng")
+            //图片路径设置为读取的图片
+            img.src = e.target.result;
+            $('#pingzheng').attr('value', e.target.result)
+        };
+        reader.readAsDataURL(file);
+    }
+ highlight_subnav();
+    function highlight_subnav() {
+		
+        $($('.metismenu li ').find('a[href="/wycadmin/scenic/sceniclist"]')).parent().addClass('active');
+      
+       $($('.metismenu li ').find('a[href="/wycadmin/scenic/sceniclist"]')).parent().parent().parent().addClass('active');
+    }
+</script>
+
+
+</body>
+
+</html>

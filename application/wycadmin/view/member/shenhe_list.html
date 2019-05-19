@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{$title}}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    {{include file='public/header'}}
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/js/time/datepicker3.css"/>
+    <style type="text/css">
+        .zhezhao{position: fixed;z-index: 999;background: rgba(0,0,0,.3);height: 100%;width: 100%;display: none;top: 0}
+        .zhezhao div{position: relative;width: 100%;height: 100%;}
+        .zhezhao div p{top: 50%;left: 50%;margin-top: -270px;margin-left: -260px;display: block;position: absolute;color: #fff;font-size: 24px;z-index: 9999;}
+        .zhezhao img{width: 500px;height: 500px;top: 50%;left: 50%;margin-top: -250px;margin-left: -250px;display: block;position: absolute;}
+    </style>
+</head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper" >
+    {{include file='public/menu'}}
+
+    <div id="page-wrapper" class="gray-bg" style="min-height: 551px;">
+        {{include file='public/headerInfo'}}
+        {{include file='public/pageHeader'}}
+        <div class="wrapper wrapper-content animated fadeInRight">
+                <div class="col-lg-12">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <a href="javascript:;" onclick="shengheok()" class="btn  btn-primary">通过</a>
+                                <a href="javascript:;" onclick="deletes()" class="btn  btn-danger">驳回</a>
+                                <a href="javascript:;" onclick="shengheyj()" class="btn  btn-primary">一键通过最先申请的100人</a>
+                            </div>
+                            <form action="" method="get">
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <select class="input-sm form-control input-s-sm inline" style="height: 34px;" name="searchType">
+                                    <option value="mobile" {{if condition = "$Think.get.searchType == 'mobile' "}} selected {{/if}}>手机号</option>
+                                    <option value="number" {{if condition = "$Think.get.searchType == 'number' "}} selected {{/if}}>编号</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <input type="text" placeholder="输入会员手机号" name='keyWord' class="input-sm form-control" style="height: 34px;">
+                                    <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-sm btn-primary" style="height: 34px;"> 搜索</button>
+                                                </span>
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>{{$title}}</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+
+                                    <table class="table table-striped table-bordered table-hover dataTables-example dataTable" id="DataTables_Table_0" >
+                                        <thead>
+                                        <tr role="row" >
+                                            <th><input type="checkbox" class="all-check" /></th>
+                                            <th>会员	</th>
+                                            <th>姓名</th>
+                                             <th>身份证号</th>
+                                            <th>正面照</th>
+                                            <th>反面照</th>
+                                            <th>推荐人</th>
+                                          <th>申请时间</th>
+                                          	<th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{volist name='List' id='vo'}}
+                                        <tr class="gradeA odd" role="row">
+                                            <td><input type="checkbox" class="shell-check Keys" Key="{{$vo->id}}" /></td>
+                                            <td>{{$vo->uid}}</td>
+                                            <td>{{$vo->name}}</td>
+                                            <td>{{$vo->name_id}}</td>
+                                            <td><img src="{{$vo->zheng|Signatureurl}}" onclick="showImage(this)" alt="" width="40" height="40"></td>
+                                          <td><img src="{{$vo->fan|Signatureurl}}" onclick="showImage(this)" alt="" width="40" height="40"></td>
+                                            <td>{{$vo->parent}}</td>
+                                          	<td>{{$vo->create_time}}</td>
+                                            <td>
+                                                <a href="javascript:;" onclick="shengheok({{$vo->id}})" class="btn btn-sm btn-success">审核</a>
+                                                <a href="javascript:;" onclick="deletes({{$vo->id}})" id="demo3" class="btn btn-sm btn-danger">驳回</a>
+                                            </td>
+                                        </tr>
+                                        {{/volist}}
+                                        </tbody>
+
+                                    </table>
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        {{$List->render()}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+   <div class="zhezhao">
+        <div>
+            <p id="close" onclick="close()">X</p >
+            <img src="" alt="" />
+        </div>
+
+    </div>
+    {{include file='public/dropDown'}}
+</div>
+
+{{include file='public/footer'}}
+<script src="__STATIC__/admin/js/time/moment.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/admin/js/time/daterangepicker.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    function prohibitionBuy(id) {
+      layer.prompt({title: '输入封禁原因', formType: 2}, function(pass, index){
+         var data = {
+            'id':id,
+            'content':pass
+        }	
+         ajax_Submit("{{:url('appeal/prohibitionBuy')}}",data,'post')
+  		layer.close(index);
+  });  
+    }
+
+    function deletes(key = '') {
+      layer.confirm('确认驳回用户的实名认证吗？', {
+              btn: ['确认','取消'] //按钮
+          }, function(){
+          modifyByKeys("{{:url('member/shengheBohui')}}",key)
+              //ajax_Submit("{{:url('member/shengheBohui')}}",'id='+key,'post')
+          }
+	  )
+       // modifyByKeys("{{:url('member/shengheBohui')}}",key)
+    }
+  
+   function showImage(t){
+        var img = $(t).attr('src')
+        // var img =$('#tank').attr('src')
+        $('.zhezhao img').attr('src',img)
+        $('.zhezhao').attr('style','display:block')
+    }
+    $('#close').click(function () {
+        $('.zhezhao').attr('style','display:none')
+    })
+
+      	
+
+
+    function shengheok(key = ''){
+        layer.confirm('确认通过用户的实名认证吗？', {
+                btn: ['确认','取消'] //按钮
+            }, function(){
+                    modifyByKeys("{{:url('member/shengheok')}}",key)
+            })
+    }
+
+    function shengheyj(){
+        layer.confirm('确认通过用户的实名认证吗？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            ajax_Submit("{{:url('member/shengheok')}}",'type=yj','post');
+           // modifyByKeys(,key)
+        })
+    }
+  
+  
+
+    $('.count').countUp();
+    $('input[name="daterange"]').daterangepicker();
+    $('#demo3').click(function () {
+        swal({
+            title: "你确定？",
+            text: "你将无法恢复这个虚构的文件！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "是的，删除",
+            closeOnConfirm: false
+        }, function () {
+            swal("删除", "您的虚构文件已被删除。", "success");
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

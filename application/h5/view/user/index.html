@@ -1,0 +1,133 @@
+{{include file="public/header" /}}
+	<style type="text/css">
+		body,.mui-content{background: #fff;}
+	</style>
+	<body>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div class="mui-scroll">	
+				<div class="mui-table-view mui-table-view-chevron mui-index user   mui-bottom" >
+					<div class="user_header">
+						<div class="flex">
+							
+							<img src="{{$userInfo->wx_header_image}}" alt="">
+							
+							<div class="">
+								<p>{{$userInfo->username}}</p>
+								<p>{{$userInfo->mobile}} </p>
+							</div>
+						</div>
+						<a href="{{:url('user/userExchange')}}"><img src="__STATIC__/h5/images/wode/duihuan.png" >兑换</a>
+						<div class="user-num">邀请总人数：{{$userInfo->zt_count}}人 <div class="mui-pull-right">总积分：{{$userInfo->integral}}</div></div>
+					</div>
+					<div class="user_center">
+						<p>功能应用</p>
+						<ul class="mui-list-unstyled mui-clearfix">
+                          
+                          	<li>
+								<a href="{{:url('user/userCard')}}">
+									<img src="__STATIC__/h5/images/wode/wodekabao.png" alt="">
+									<p>我的卡包</p>
+								</a>
+								
+							</li>
+                          
+							<li>
+								<a href="{{:url('vipcard/cardMakeOut')}}">
+									<img src="__STATIC__/h5/images/wode/shimingrenzheng.png" alt="">
+									<p>卡片转让</p>
+								</a>
+								
+							</li>
+							
+							<li>
+								<a href="{{:url('user/userOrder')}}">
+									<img src="__STATIC__/h5/images/wode/lvyoudingdan.png" alt="">
+									<p>我的订单</p>
+								</a>
+								
+							</li>
+							<li>
+								<a href="{{:url('user/userTeam')}}">
+									<img src="__STATIC__/h5/images/wode/wodetuandui.png" alt="">
+									<p>我的团队</p>
+								</a>
+								
+							</li>
+							<li>
+								<a href="{{:url('user/userIntegral')}}">
+									<img src="__STATIC__/h5/images/wode/jifenjilu.png" alt="">
+									<p>积分记录</p>
+								</a>
+								
+							</li>
+							{{if condition='$userInfo->valid'}}
+							<li>
+								<a href="{{:url('user/userInvite')}}">
+									<img src="__STATIC__/h5/images/wode/woyaofenxiang.png" alt="">
+									<p>我要分享</p>
+								</a>
+								
+							</li>
+                          	{{else}}
+                         	 <li>
+								<a href="javascript:;" id='dianji'>
+									<img src="__STATIC__/h5/images/wode/woyaofenxiang.png" alt="">
+									<p>我要分享</p>
+								</a>
+								
+							</li>
+							{{/if}}
+							
+							<li>
+								<a href="{{:url('user/infoBind')}}">
+									<img src="__STATIC__/h5/images/wode/shimingrenzheng.png" alt="">
+									<p>信息完善</p>
+								</a>
+							</li>
+                          
+                           <li>
+								<a href="{{:url('user/userAbout')}}">
+									<img src="__STATIC__/h5/images/wode/guanyuwomen.png" alt="">
+									<p>关于我们</p>
+								</a>
+								
+							</li>
+							<li>
+								<a href="{{:url('user/userFeedback')}}">
+									<img src="__STATIC__/h5/images/wode/yijianfankui.png" alt="">
+									<p>意见反馈</p>
+								</a>
+								
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{include file="public/nav" /}} 
+		{{include file="public/footer" /}} 
+		<script type="text/javascript" charset="utf-8">
+		mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style:'circle',
+						callback: pulldownRefresh
+					}
+				}
+		});
+		function pulldownRefresh() {
+			setTimeout(function() {
+				window.location.reload()
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+		$('#dianji')[0].addEventListener('tap',function(){
+        	 mui.toast("请先成为正式会员")
+             
+        })
+			
+		</script>
+	
+	</body>
+</html>

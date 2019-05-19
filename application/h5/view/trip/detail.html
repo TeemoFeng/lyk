@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{{include file='public/header'}}
+		<style type="text/css">
+			.mui-content {
+				background: #fff;
+			}
+          table{width: 100%!important;}
+		</style>
+	<body>
+		<header class="mui-bar mui-bar-nav  index-headers">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='javascript:;'></a>
+			<h1 class="mui-title color">景区详情</h1>
+
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div class="mui-scroll">
+
+				<div class="mui-table-view mui-table-view-chevron  jingqu_shop  " style="background: #eff3f6;">
+					<div class="swiper-container ">
+						<div class="swiper-wrapper">
+							{{volist name='banner' id='bo'}}
+							<div class="swiper-slide"><a href="jingqu_shop.html"><img src="{{$bo->image}}" ></a></div>
+							
+							{{/volist}}
+							
+						</div>
+					</div>
+					
+					<div class="jingqu_center">
+						<h3 class="mui-ellipsis">{{$info->title}}
+							<span class="mui-pull-right">
+								{{for start="0" end="$info->star" }}
+								<i class="fa fa-star"></i>
+								{{/for}}
+							</span>
+						</h3>
+						<div class="flex mui-text-center">
+							<div class="flex-item">
+								<p class="mui-ellipsis">{{$journey->w_vid}}</p>
+							</div>
+							<div class="flex-item mui-ellipsis">{{$info->star}}A级风景区</div>
+
+						</div>
+						<div class="mui-ellipsis"><i class="fa  fa-map-marker"></i>{{$info->addr}}</div>
+						<div class="mui-ellipsis"><i class="fa fa-calendar"></i>{{$journey->s_time}}-{{$journey->e_time}}</div>
+						<div class="mui-ellipsis"><i class="fa fa-phone"></i>{{$journey->mobile}}</div>
+						<div class="mui-ellipsis"><i class="fa fa-user"></i>{{$journey->this_people_count}}/{{$journey->max_people_count}}人 <button type="button" onclick="yuyue({{$journey->id}})"   id="yu_yue" class="mui-pull-right mui-btn">立即预约</button></div>
+					</div>
+					<div class="jingqu_bt">
+						<div id="segmentedControl" class="mui-segmented-control">
+							<a class="mui-control-item mui-active " href="#item1">
+								景区介绍
+							</a>
+							<!--a class="mui-control-item" href="#item2">
+								自驾路线
+							</a>
+							<a class="mui-control-item" href="#item3">
+								兑换须知
+							</a-->
+						</div>
+						<div>
+							<div id="item1" class="mui-control-content mui-active">
+								<div class="jingqu_main">
+									{{$info->introduce}}
+								</div>
+							</div>
+							<!--div id="item2" class="mui-control-content">
+								<div class="jingqu_main">
+									{{$info->circuit}}
+								</div>
+							</div>
+							<div id="item3" class="mui-control-content">
+								<div class="jingqu_main">
+									{{$info->notice}}
+								</div>
+							</div-->
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		{{include file="public/footer" /}}
+		<script src="__STATIC__/h5/js/mui.zoom.js"></script>
+		<script src="__STATIC__/h5/js/mui.previewimage.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init({
+				swipeBack: false,
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style: 'circle',
+						callback: pulldownRefresh
+					}
+				}
+			});
+
+			function pulldownRefresh() {
+				setTimeout(function() {
+					window.location.reload()
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+		</script>
+		<script>
+			//window.open("dingdan_xq.html");
+			mui.previewImage();
+			(function(){
+				var imgs=$('.jingqu_main img')
+				for(var i=0;i<imgs.length;i++){
+					$(imgs[i]).attr('data-preview-src','')
+					$(imgs[i]).attr('data-preview-group',i)
+				}
+			})()
+  var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        autoplay:5000,
+        paginationClickable: true,
+
+    });
+			function yuyue(id) {
+				ajax_Submit("{{:url('trip/tripOrder')}}",'jid='+id,'get')
+            }
+		</script>
+	</body>
+</html>

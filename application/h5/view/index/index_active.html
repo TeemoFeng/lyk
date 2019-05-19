@@ -1,0 +1,114 @@
+{{include file="public/header" /}}
+	<title>活动景区</title>
+	<style type="text/css">
+		.mui-content{background: #fff;}
+	</style>
+	<body>
+		<header class="mui-bar mui-bar-nav  index-headers">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='javascript:;' ></a>
+			<h1 class="mui-title color">活动景区</h1>
+			
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div class="mui-scroll">
+				
+				<div class="mui-table-view mui-table-view-chevron    " >
+					<div class="title">活动景区</div>
+				</div>
+				<div class="active_list">
+					<ul class="mui-list-unstyled mui-clearfix">
+						<li>
+							<a href="jingqu_shop.html">
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡- <span class="font12">三日游</span></p>
+								<p class="font12  mui-ellipsis">看一看唯美建筑 体验异国风情</p>
+								<p class="font12 mui-ellipsis">出发日期：2018年10月1日</p>
+								<p class="font12 color-blue"><i class="fa fa-map-marker color-blue"></i> 北京出发</p>
+							</a>
+						</li>
+						<li>
+							<a href=''>
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡- <span class="font12">三日游</span></p>
+								<p class="font12  mui-ellipsis">看一看唯美建筑 体验异国风情</p>
+								<p class="font12 mui-ellipsis">出发日期：2018年10月1日</p>
+								<p class="font12 color-blue"><i class="fa fa-map-marker color-blue"></i> 北京出发</p>
+							</a>
+						</li>
+						<li>
+							<a href=''>
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡- <span class="font12">三日游</span></p>
+								<p class="font12  mui-ellipsis">看一看唯美建筑 体验异国风情</p>
+								<p class="font12 mui-ellipsis">出发日期：2018年10月1日</p>
+								<p class="font12 color-blue"><i class="fa fa-map-marker color-blue"></i> 北京出发</p>
+							</a>
+						</li>
+						<li>
+							<a href=''>
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡- <span class="font12">三日游</span></p>
+								<p class="font12  mui-ellipsis">看一看唯美建筑 体验异国风情</p>
+								<p class="font12 mui-ellipsis">出发日期：2018年10月1日</p>
+								<p class="font12 color-blue"><i class="fa fa-map-marker color-blue"></i> 北京出发</p>
+							</a>
+						</li>
+						<li>
+							<a href=''>
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡- <span class="font12">三日游</span></p>
+								<p class="font12  mui-ellipsis">看一看唯美建筑 体验异国风情</p>
+								<p class="font12 mui-ellipsis">出发日期：2018年10月1日</p>
+								<p class="font12 color-blue"><i class="fa fa-map-marker color-blue "></i> 北京出发</p>
+							</a>
+						</li>
+						<li>
+							<a href=''>
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡- <span class="font12">三日游</span></p>
+								<p class="font12  mui-ellipsis">看一看唯美建筑 体验异国风情</p>
+								<p class="font12 mui-ellipsis">出发日期：2018年10月1日</p>
+								<p class="font12 color-blue"><i class="fa fa-map-marker color-blue "></i> 北京出发</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		{{include file="public/footer" /}}
+		<script type="text/javascript" charset="utf-8">
+		mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style:'circle',
+						callback: pulldownRefresh
+					}
+				}
+		});
+		function pulldownRefresh() {
+			setTimeout(function() {
+				window.location.reload()
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+		 function enterSearch(event){
+		    if(event.keyCode == 13) {//用户点击回车的事件号为13
+		        var keyword = document.getElementById('searchInput').value;
+		        alert(keyword);
+		    }
+		}
+			
+		</script>
+		<script>        
+		
+		    var swiper = new Swiper('.swiper-container', {
+		        pagination: '.swiper-pagination',
+		        autoplay:5000,
+		        paginationClickable: true,
+		        
+		    });
+		    
+		  </script>
+	</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{{include file='public/header'}}
+<body>
+<header class="mui-bar mui-bar-nav  index-headers">
+    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='{{:url('index/index')}}' ></a>
+    <h1 class="mui-title color">直通车</h1>
+
+</header>
+<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+    <div class="mui-scroll">
+
+        <div class="mui-table-view mui-table-view-chevron    " >
+
+            <ul class="mui-list-unstyled mui-clearfix yufen">
+                {{volist name='month' id='mo'}}
+                <li><a {{if condition="$i == $thisMonth"}} class="active" {{/if}} href="{{:url('',['cid'=>$cid,'displayType'=>1,'thisMonth'=>$i])}}">{{$mo}}</a></li>
+                {{/volist}}
+
+            </ul>
+
+            <div class="active_list">
+                {{volist name='journeys' id='jo1'}}
+                <div class="active_title">{{$jo1->title}}</div>
+                <ul class="mui-list-unstyled mui-clearfix">
+                    {{volist name='jo1->son' id='jo2'}}
+                    <li>
+                        <a href="{{:url('trip/detail',['jid'=>$jo2->id])}}">
+                            <img src="{{$jo2->csInfo->w_image_path}}" alt="">
+                            <p class="font15  mui-ellipsis">{{$jo2->csInfo->title}}</p>
+                            <p class="font12  mui-ellipsis">{{$jo2->csInfo->intro}}</p>
+                            <p class="font12 mui-ellipsis">预约开始时间：{{$jo2->s_time}}</p>
+                            <p class="font12 mui-ellipsis">预约结束时间：{{$jo2->e_time}}</p>
+                            {{if condition='$jo2->vehicle'}}
+                            <span class="mui-bg-blue">直通车</span>
+                            {{/if}}
+                        </a>
+                    </li>
+                    {{/volist}}
+                </ul>
+                {{/volist}}
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{{include file='public/footer'}}
+<script type="text/javascript" charset="utf-8">
+    mui.init({
+        pullRefresh: {
+            container: '#pullrefresh',
+            down: {
+                style:'circle',
+                callback: pulldownRefresh
+            }
+        }
+    });
+    function pulldownRefresh() {
+        setTimeout(function() {
+            window.location.reload()
+            mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+        }, 1500);
+    }
+    function enterSearch(event){
+        if(event.keyCode == 13) {//用户点击回车的事件号为13
+            var keyword = document.getElementById('searchInput').value;
+            alert(keyword);
+        }
+    }
+
+</script>
+<script>
+
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        autoplay:5000,
+        paginationClickable: true,
+
+    });
+
+</script>
+</body>
+</html>

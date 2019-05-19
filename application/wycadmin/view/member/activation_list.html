@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>会员激活</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    {{include file='public/header'}}
+
+
+</head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper" >
+    {{include file='public/menu'}}
+
+    <div id="page-wrapper" class="gray-bg" style="min-height: 551px;">
+        {{include file='public/headerInfo'}}
+        {{include file='public/pageHeader'}}
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form action="" method="post">
+
+                        <div class="row">
+                            <div class="col-md-5 col-sm-6 col-xs-12"><a href="huiyuan-zhuce.html" class="btn btn-success">注册会员</a></div>
+                            <div class="col-md-2 col-sm-6 col-xs-12 " ><select class="input-sm form-control input-s-sm inline" style="height: 34px;">
+                                <option value="0">选项 1</option>
+                                <option value="1">选项 2</option>
+                                <option value="2">选项 3</option>
+                                <option value="3">选项 4</option>
+                            </select>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 m-b-xs">
+                                <div data-toggle="buttons" class="btn-group" style="width: 100%;">
+                                    <input class="form-control" type="text" name="daterange" value="01/01/2015 - 01/31/2015">
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <input type="text" placeholder="会员编号" class="input-sm form-control" style="height: 34px;">
+                                    <span class="input-group-btn">
+	                                    		<button type="button" class="btn btn-sm btn-primary" style="height: 34px;"> 搜索</button>
+	                                    	</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>未激活会员</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+
+                                    <table class="table table-striped table-bordered table-hover dataTables-example dataTable" id="DataTables_Table_0" >
+                                        <thead>
+                                        <tr role="row">
+                                            <th><input type="checkbox" class="all-check"></th>
+                                            <th>会员编号	</th>
+                                            <th>会员姓名</th>
+                                            <th>手机号</th>
+                                            <th>密码</th>
+                                            <th>推荐人</th>
+                                            <th>注册时间</th>
+
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{volist name='memberList' id='vo'}}
+                                        <tr class="gradeA odd" role="row">
+                                            <td><input type="checkbox" class="shell-check"></td>
+                                            <td>{{$vo->number}}</td>
+                                            <td>{{$vo->username}}</td>
+
+                                            <td>{{$vo->mobile}}</td>
+                                            <td>{{$vo->password}}</td>
+
+                                            <td>{{$vo->parentinfo}}</td>
+
+                                            <td>{{$vo->create_time}}</td>
+                                            <td>
+                                                <a href="javascript:;" onclick="doActivation({{$vo->id}})" class="btn btn-sm btn-success">激活</a>
+                                                <a href="javascript:;" id="demo3" class="btn btn-sm btn-danger">删除</a>
+
+                                            </td>
+                                        </tr>
+                                        {{/volist}}
+                                        </tbody>
+
+                                    </table>
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        {{$memberList->render()}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+
+            <div>
+                <strong>Copyright</strong>
+            </div>
+        </div>
+    </div>
+
+    {{include file='public/dropDown'}}
+</div>
+
+{{include file='public/footer'}}
+
+<script type="text/javascript">
+    function doActivation(id) {
+        ajax_Submit("{{:url('member/doActivation')}}",'id='+id,'get')
+    }
+
+
+    $('.count').countUp();
+    $('input[name="daterange"]').daterangepicker();
+    $('#demo3').click(function () {
+        swal({
+            title: "",
+            text: "你将无法恢复这个会员！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "是的",
+            closeOnConfirm: false
+        }, function () {
+            swal("", "会员已被删除。", "success");
+        });
+    });
+</script>
+
+
+</body>
+
+</html>

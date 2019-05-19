@@ -1,0 +1,167 @@
+{{include file='public/header'}}
+<body >
+<header class="mui-bar mui-bar-nav  index-headers">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='javascript:;'></a>
+	<h1 class="mui-title color">订单详情</h1>
+
+</header>
+<div class="mui-content mui-scroll-wrapper mui-bottom" id="pullrefresh">
+	<div class="mui-scroll">
+			<div class="mui-table-view mui-table-view-chevron   " style="background: #c6c7ce;">
+
+				<div class="dingdan">
+
+					<div class="dingdan_header">
+						<div class="dd_header mui-ellipsis">{{$jouInfo->title}}</div>
+
+						<div class="dd_piao">
+							<div class="font15">成人票 <span class="mui-pull-right">￥<del id="price">{{$jouInfo->tickets_price}}</del></span></div>
+							<i class="fa fa-check-square"></i>游玩保障 <i class="fa fa-check-square" style="margin-left: 10px;"></i>免费提醒
+							<div class="dd_yajin">押金:<b id="yajin">{{$jouInfo->cash}}</b>元/人</div>
+							<div class="dd_tishi">温馨提示</div>
+							<div class="dd_num">
+								<button class="mui-btn jian" type="button">-</button>
+								<input id="num" type="number" name="number" value="1" readonly />
+								<button class="mui-btn add" type="button">+</button>
+							</div>
+						</div>
+						<p class="mui-ellipsis">时间：{{$jouInfo->s_time}}-{{$jouInfo->e_time}}</p>
+					</div>
+					<form method="post" name="orderInfo">
+						<input type="hidden" value="{{$jouInfo->id}}" name="j_id">
+					<div class="dingdan_xx ">
+						<div class="dd_header mui-ellipsis">出行人信息 <p>需要写<span class="mui-red"><a class="mui-red" href="javascript:;" id="renshu">1</a>个</span>出行人</p></div>
+						<div class="ddxx_main add_list">
+							<button type="button"  class="mui-btn mui-btn-blue add_ren">新增</button>
+						</div>
+
+					</div>
+					<div class="dingdan_xx ">
+						<div class="dd_header mui-ellipsis">联系信息</div>
+						<div class="ddxx_main">
+
+							<div class="dingdan_xx_list">
+								<div class="mui-input-row">
+									<label>手机号</label>
+									<input type="text"  name="phone" placeholder="{{$jouInfo->mobile}}" disabled>
+
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+					{{if condition='$jouInfo->vehicle'}}
+					<div class="dingdan_xx ">
+						<div class="dd_header mui-ellipsis">乘车点</div>
+						<div class="mui-input-row flex" style="padding-left: 15px;">
+							{{volist name='$jouInfo->site' id='ao'}}
+							<div class=" mui-radio mui-left">
+								<label style="width: 100px;padding-left: 25px;">{{$ao}}</label>
+								<input name="site" type="radio" value="{{$i}}" {{if condition="$i == 1"}}checked {{/if}} >
+							</div>
+							{{/volist}}
+						</div>
+					</div>
+					{{/if}}
+					</form>
+				</div>
+
+			</div>
+	</div>
+</div>
+<nav class="mui-bar mui-bar-tab offer-bottom">
+	<div class="footer">
+		<div class="flex">
+			<div class="flex-item"><span class="mui-red font15">总额：￥<b id="zong">180</b></span></div>
+			<div class="flex-item"><button type="button" id="submite">立即预定</button></div>
+		</div>
+	</div>
+
+</nav>
+{{include file='public/footer'}}
+<script type="text/javascript" charset="utf-8">
+    mui.init({
+        swipeBack: false,
+        pullRefresh: {
+            container: '#pullrefresh',
+            down: {
+                style: 'circle',
+                callback: pulldownRefresh
+            }
+        }
+    });
+
+    function pulldownRefresh() {
+        setTimeout(function() {
+            window.location.reload()
+            mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+        }, 1500);
+    }
+</script>
+<script>
+  	(function(){
+      var num=$('#num').val()
+      $('#zong').text( parseFloat($('#yajin').text())*num)
+    })()
+    $('.jian')[0].addEventListener('tap',function(){
+        var num=$('#num').val()
+        console.log(num)
+        if(num=='1'){mui.toast('人数不能小于1');return false}
+        num=parseFloat(num)-1;
+        $('#num').val(num)
+        $('#renshu').text(num)
+       $('#zong').text( parseFloat($('#yajin').text())*num)
+    })
+    $('.add')[0].addEventListener('tap',function(){
+        var num=$('#num').val()
+        num=parseFloat(num)+1;
+        $('#num').val(num)
+        $('#renshu').text(num)
+       $('#zong').text( parseFloat($('#yajin').text())*num)
+    })
+    var a=0;
+    $('.add_ren')[0].addEventListener('tap',function(){
+        a=parseFloat(a)+1;
+        $('.add_list').append('<div class="dingdan_xx_list">'+
+            '<div class="mui-input-row">'+
+            '<label>姓名</label>'+
+            '<input type="text"  name="name[]" placeholder="请输入姓名">'+
+            '<i class="del" iid="'+a+'">-</i>'+
+            '</div>'+
+            '<div class="mui-input-row">'+
+            '<label>身份证号</label>'+
+            '<input type="text" class="mui-input-clear" name="name_id[]" placeholder="请输入身份证号">'+
+            '</div>'+
+            '</div>')
+        del()
+    })
+    function del(){
+        for(var i=0;i<$('.del').length;i++){
+            $('.del')[i].addEventListener('tap',function(data){
+
+                $(this).parent().parent().remove()
+
+            })
+        }
+    }
+    $('#submite')[0].addEventListener('tap',function(){
+        var data=$('form').serialize();
+        console.log(data)
+        $.ajax({
+			url:"{{:url('trip/reserveSubmit')}}",
+			type:'post',
+			dataType:'json',
+			data:data,
+			success:function (res) {
+				if (res.code == 1){
+				    mui.toast(res.msg)
+				}
+                mui.toast(res.msg)
+            }
+		})
+    })
+</script>
+</body>
+</html>

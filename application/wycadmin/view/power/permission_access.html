@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{$title}}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    {{include file='public/header'}}
+
+</head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99"
+         style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper">
+    {{include file='public/menu'}}
+    <div id="page-wrapper" class="gray-bg" style="min-height: 551px;">
+        {{include file='public/headerInfo'}}
+        {{include file='public/pageHeader'}}
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>{{$title}}</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content clearfix">
+                            <form action="" id="power" method="POST" class="form-horizontal auth-form">
+                                {{volist name='prowerListOne' id='vo'}}
+                                <div class="rule_check">
+                                    <div>
+                                        <label class="checkbox inline">
+                                            <input class="auth_rules rules_row" type="checkbox" name="rules[]" value="{{$vo->id}}" {{if condition="$vo->check"}} checked="checked" {{/if}}>{{$vo->title}}
+                                        </label>
+                                    </div>
+                                    <!--<span class="divsion">&nbsp;</span>-->
+                                    {{volist name='$vo->sonOne' id='voo'}}
+                                    <span class="child_row">
+                                            <label class="checkbox inline" data-hasqtip="64" oldtitle="新增编辑和保存配置" title="">
+                                                <input class="auth_rules" type="checkbox" name="rules[]" value="{{$voo->id}}" {{if condition="$voo->check"}} checked="checked" {{/if}}>{{$voo->title}}
+                                            </label>
+                                    </span>
+                                    <p  style="margin-left: 30px">
+                                        {{volist name='$voo->sonTwe' id='vooo'}}
+                                        <label class="checkbox inline" data-hasqtip="64" oldtitle="新增编辑和保存配置" title="">
+                                            <input class="auth_rules" type="checkbox" name="rules[]" value="{{$vooo->id}}" {{if condition="$vooo->check"}} checked="checked" {{/if}}>{{$vooo->title}}
+                                        </label>
+                                        {{/volist}}
+                                    </p>
+                                    <!--<br>-->
+                                    {{/volist}}
+                                </div>
+                                {{/volist}}
+                                </dd>
+
+                                </dl>
+                                <div class="form-actions">
+                                    <input type="hidden" name="power_id" value="{{$powerId}}">
+                                    <button type="button" onclick="powerSubmit()" class="btn btn-success " target-form="auth-form">确 定</button>
+                                    <button class="btn btn-default" onclick="javascript:history.back(-1);return false;">
+                                        返 回
+                                    </button>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="footer">
+
+            <div>
+                <strong>Copyright</strong>
+            </div>
+        </div>
+    </div>
+    {{include file='public/dropDown'}}
+</div>
+
+{{include file='public/footer'}}
+<script type="text/javascript">
+    $('.count').countUp();
+highlight_subnav();
+    function highlight_subnav() {
+		
+        $($('.metismenu li ').find('a[href="/wycadmin/Power/powerList"]')).parent().addClass('active');
+      
+       $($('.metismenu li ').find('a[href="/wycadmin/Power/powerList"]')).parent().parent().parent().addClass('active');
+    }
+    function powerSubmit() {
+        ajax_Submit('',$('#power').serialize(),'post')
+    }
+
+    +function ($) {
+
+        var rules = [];
+
+        $('.auth_rules').each(function () {
+
+            if ($.inArray(parseInt(this.value, 10), rules) > -1) {
+
+                $(this).prop('checked', true);
+
+            }
+
+            if (this.value == '') {
+
+                $(this).closest('span').remove();
+
+            }
+
+        });
+        //全选节点
+
+        $('.rules_all').on('change', function () {
+
+            $(this).closest('dl').find('dd').find('input').prop('checked', this.checked);
+
+        });
+
+        $('.rules_row').on('change', function () {
+
+            $(this).closest('.rule_check').find('.child_row').find('input').prop('checked', this.checked);
+
+        });
+        $('.checkbox').each(function () {
+
+            $(this).qtip({
+
+                content: {
+
+                    text: $(this).attr('title'),
+
+                    title: $(this).text()
+
+                },
+
+                position: {
+
+                    my: 'bottom center',
+
+                    at: 'top center',
+
+                    target: $(this)
+
+                },
+
+                style: {
+
+                    classes: 'qtip-dark',
+
+                    tip: {
+
+                        corner: true,
+
+                        mimic: false,
+
+                        width: 10,
+
+                        height: 10
+
+                    }
+
+                }
+
+            });
+
+        });
+
+
+    }(jQuery);
+
+</script>
+
+</body>
+
+</html>

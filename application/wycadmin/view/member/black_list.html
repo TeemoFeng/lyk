@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{$title}}</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    {{include file='public/header'}}
+    <link rel="stylesheet" type="text/css" href="__STATIC__/admin/js/time/datepicker3.css"/>
+</head>
+
+<body class="pace-done">
+<div class="pace  pace-inactive">
+    <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
+<div id="wrapper" >
+    {{include file='public/menu'}}
+
+    <div id="page-wrapper" class="gray-bg" style="min-height: 551px;">
+        {{include file='public/headerInfo'}}
+        {{include file='public/pageHeader'}}
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <form action="" method="get">
+
+                        <div class="row">
+                            <div class="col-md-7 col-sm-6 col-xs-12"> <select class="input-sm form-control input-s-sm inline" style="height: 34px;" name="searchType">
+                                <option value="M.number" {{if condition = "$Think.get.searchType == 'M.number' "}} selected {{/if}}>编号</option>
+                                <option value="M.mobile" {{if condition = "$Think.get.searchType == 'M.mobile' "}} selected {{/if}}>手机号</option>
+                                <option value="B.content" {{if condition = "$Think.get.searchType == 'B.content' "}} selected {{/if}}>封禁原因</option>
+                            </select></div>
+
+                            <div class="col-md-3 col-sm-6 col-xs-12 m-b-xs">
+                                <button type="button" class="btn btn-default pull-right" id="daterange-btn">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>时间</span>
+                                    <i class="fa fa-caret-down"></i>
+                                    <input type="text" name="time" style="position: absolute;opacity: 0;"  />
+                                </button>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <div class="input-group">
+                                    <input type="text" placeholder="会员编号" name='keyWord' class="input-sm form-control" style="height: 34px;">
+                                    <span class="input-group-btn">
+	                                    		<button type="submit" class="btn btn-sm btn-primary" style="height: 34px;"> 搜索</button>
+	                                    	</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>会员列表</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content">
+
+                            <div class="table-responsive">
+                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+
+                                    <table class="table table-striped table-bordered table-hover dataTables-example dataTable" id="DataTables_Table_0" >
+                                        <thead>
+                                        <tr role="row" >
+                                            <th>会员编号	</th>
+                                            <th>手机号</th>
+                                            <th>会员职务</th>
+                                            <th>密码/二级密码</th>
+                                            <th>推荐人</th>
+                                            <th>激活时间</th>
+                                            <th>加入黑名单原因</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{volist name='memberList' id='vo'}}
+                                        <tr class="gradeA odd" role="row">
+                                            <td>{{$vo->number}}</td>
+                                            <td>{{$vo->mobile}}</td>
+                                            <td>{{$vo->level}}</td>
+                                            <td>{{$vo->password}}/{{$vo->spassword}}</td>
+                                            <td>{{$vo->parentinfo}}</td>
+                                            <td>{{$vo->create_time}}</td>
+                                            <td>{{$vo->content}}</td>
+                                            <td>
+                                                <a href="javascript:;" onclick="enable({{$vo->id}})" id="demo3" class="btn btn-sm btn-success">移除黑名单</a>
+                                                <a href="{{:url('member/gerenxinxi',['id'=>$vo->id])}}"  class="btn btn-sm btn-default">更多操作>> </a>
+                                            </td>
+                                        </tr>
+                                        {{/volist}}
+                                        </tbody>
+
+                                    </table>
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        {{$memberList->render()}}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+
+            <div>
+                <strong>Copyright</strong>
+            </div>
+        </div>
+    </div>
+    {{include file='public/dropDown'}}
+</div>
+
+{{include file='public/footer'}}
+<script src="__STATIC__/admin/js/time/moment.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="__STATIC__/admin/js/time/daterangepicker.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    function enable(key = '') {
+        modifyByKeys("{{:url('member/memberEnable')}}",key)
+    }
+
+    $('.count').countUp();
+    $('input[name="daterange"]').daterangepicker();
+    $('#demo3').click(function () {
+        swal({
+            title: "你确定？",
+            text: "你将无法恢复这个虚构的文件！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "是的，删除",
+            closeOnConfirm: false
+        }, function () {
+            swal("删除", "您的虚构文件已被删除。", "success");
+        });
+    });
+
+    $('.count').countUp();
+    $('input[name="daterange"]').daterangepicker();
+    function init() {
+        //定义locale汉化插件
+        var locale = {
+            "format": 'YYYY-MM-DD',
+            "separator": " -222 ",
+            "applyLabel": "确定",
+            "cancelLabel": "取消",
+            "fromLabel": "起始时间",
+            "toLabel": "结束时间'",
+            "customRangeLabel": "自定义",
+            "weekLabel": "W",
+            "daysOfWeek": ["日", "一", "二", "三", "四", "五", "六"],
+            "monthNames": ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+            "firstDay": 1
+        };
+        //初始化显示当前时间
+        $('#daterange-btn span').html(moment().subtract('hours', 1).format('YYYY-MM-DD') + ' - ' + moment().format('YYYY-MM-DD'));
+        $('#daterange-btn input').html(moment().subtract('hours', 1).format('YYYY-MM-DD') + '/' + moment().format('YYYY-MM-DD'));
+        //日期控件初始化
+        $('#daterange-btn').daterangepicker(
+            {
+                'locale': locale,
+                //汉化按钮部分
+                ranges: {
+                    '今日': [moment(), moment()],
+                    '昨日': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    '最近7日': [moment().subtract(6, 'days'), moment()],
+                    '最近30日': [moment().subtract(29, 'days'), moment()],
+                    '本月': [moment().startOf('month'), moment().endOf('month')],
+                    '上月': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                },
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment()
+            },
+            function (start, end) {
+                $('#daterange-btn span').html(start.format('YYYY-MM-DD') + ' - ' + end.format('YYYY-MM-DD'));
+                $('#daterange-btn input').val(start.format('YYYY-MM-DD') + '/' + end.format('YYYY-MM-DD'));
+            }
+        );
+    };
+    $(document).ready(function() {
+        init();
+
+    });
+</script>
+
+
+</body>
+
+</html>

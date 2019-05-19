@@ -1,0 +1,98 @@
+{{include file="public/header" /}}
+		<title>热门景区</title>
+		<style type="text/css">
+			.mui-content{background: #fff;}
+		</style>
+	<body>
+		<header class="mui-bar mui-bar-nav  index-headers">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left color" href='javascript:;' ></a>
+			<h1 class="mui-title color">热门景区</h1>
+			
+		</header>
+		<div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+			<div class="mui-scroll">
+				
+				<div class="mui-table-view mui-table-view-chevron    " >
+					<div class="title">热门景区</div>
+				</div>
+				<div class="re_list">
+					<ul class="mui-list-unstyled mui-clearfix">
+						<li>
+							<a href="jingqu_shop.html">
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡</p>
+								
+							</a>
+						</li>
+						<li>
+							<a href="jingqu_shop.html">
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡</p>
+								
+							</a>
+						</li>
+						<li>
+							<a href="jingqu_shop.html">
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡</p>
+								
+							</a>
+						</li>
+						<li>
+							<a href="jingqu_shop.html">
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡</p>
+								
+							</a>
+						</li>
+						<li>
+							<a href="jingqu_shop.html">
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡</p>
+								
+							</a>
+						</li>
+						<li>
+							<a href="jingqu_shop.html">
+								<img src="__STATIC__/h5/images/tu3.jpg" alt="">
+								<p class="font15  mui-ellipsis">圣彼得堡</p>
+								
+							</a>
+						</li>
+					</ul>
+				</div>
+			
+			</div>
+		</div>
+		{{include file="public/footer" /}}
+		<script type="text/javascript" charset="utf-8">
+		mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						style:'circle',
+						callback: pulldownRefresh
+					}
+				}
+		});
+		function pulldownRefresh() {
+			setTimeout(function() {
+				window.location.reload()
+				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+		}
+		
+			
+		</script>
+		<script>        
+		
+		    var swiper = new Swiper('.swiper-container', {
+		        pagination: '.swiper-pagination',
+		        autoplay:5000,
+		        paginationClickable: true,
+		        
+		    });
+		    
+		  </script>
+	</body>
+</html>
